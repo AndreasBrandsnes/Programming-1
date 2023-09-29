@@ -1,0 +1,298 @@
+// PolynomialMenu.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// Make a menu where the user can select between the 3 options, or to quit the program.
+    // Make the menu selection prompt the designated program
+    // Make a fail-safe for when the user inputs an invalid choice
+// Make the 3 programs
+// 
+
+#include <iostream> //Input and Output functions
+#include <cmath>  //for the pow() and sqrt()
+#include <cstdlib>
+#include <string>
+
+using namespace std;
+
+// Polynomial - Declaring poly1() with void outside the main() lets be call it in menu option 2
+///Polynomial function
+void poly1() //Using void because this function is not going to return anything on its own.
+{
+    
+    double a[4] = {}; // declaring the first array, simply naming it 'a'
+    double b[4] = {}; // same, but 'b'
+    
+    string again;
+    do
+    {
+        cout << "\n\nPlease provide input for the coefficients for the polynomial:\n";
+        cin >> a[0]; //making the user enter the four coeff's for a[]
+        cin >> a[1];
+        cin >> a[2];
+        cin >> a[3];
+        cout << "\nYour first polynomial now looks like this (using addtition as an example): \n" << a[0] << "x^3 + " << a[1] << "x^2 + " << a[2] << "x + " << a[3] << endl;
+
+        cout << "\n\nPlease provide input for the coefficients for the 2nd polynomial:\n";
+        cin >> b[0]; //making the user enter the four coeff's for b[]
+        cin >> b[1];
+        cin >> b[2];
+        cin >> b[3];
+        cout << "\nYour second polynomial now looks like this (using addtition as an example): \n" << b[0] << "x^3 + " << b[1] << "x^2 + " << b[2] << "x + " << b[3] << endl;
+
+        cout << "\n\nAdding your two polynomials looks like this:";
+        cout << "\n" << a[0] + b[0] << "x^3 + " << a[1] + b[1] << "x^2 + " << a[2] + b[2] << "x^1 + " << a[3] + b[3] << "\n";
+
+        cout << "\nSubtracking your polynomials looks like this:";
+        cout << "\n" << a[0] - b[0] << "x^3 + " << a[1] - b[1] << "x^2 + " << a[2] - b[2] << "x^1 + " << a[3] - b[3] << "\n";
+
+        double c[7] = { 0,0,0,0,0,0,0 };
+
+        for (int i = 0; i < 4; i++)
+        {   //Starts with [i] pos 0, then multiplies i with j pos 0-3 (four steps). Then the loop repeats for i pos 1 and j 0-3. 
+            // In short, the function will multiply the pos 0 in the [i]-array with every position in the [j]-array. Then loop back and do the same for pos 1 in [i], and so on. 
+            // The arrays representing the two polynomials.
+            for (int j = 0; j < 4; j++)
+                c[i + j] += a[i] * b[j];
+
+        }
+
+        cout << "\nMultiplicating your polynomials looks like this:";
+        cout << "\n" << c[0] << "x^6 + " << c[1] << "x^5 + " << c[2] << "x^4 + " << c[3] << "x^3 + " << c[4] << "x^2 + " << c[5] << "x^1 + " << c[6] << ".\n\n";
+        cout << "\nDo you want to produce a new set of polynoials? (y/n): ";
+            cin >> again;
+    } while (again == "y");
+}
+
+// Error handling Int. I got help with this, to prevent error loops if the user inputs an invalid datatype.
+int GetInteger()
+{
+    int input;
+    bool fail = true;
+
+    do
+    {
+        cin >> input;
+
+        // Error handling for cin
+        if (cin.fail())
+        {
+            cout << "Please re-enter previous option with a valid option! \n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        else
+        {
+            fail = false;
+        }
+    } while (fail);
+
+    return input;
+}
+
+// Error handling Double. The same as the GetInteger() part. 
+int GetDouble()
+{
+    double input;
+    bool fail = true;
+
+    do
+    {
+        cin >> input;
+
+        // Error handling for cin
+        if (cin.fail())
+        {
+            cout << "Please re-enter previous option with a valid option!\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        else
+        {
+            fail = false;
+        }
+    } while (fail);
+
+    return input;
+}
+
+// Error handling String. The same as the above, again.
+string GetString()
+{
+    string input;
+    bool fail = true;
+
+    do
+    {
+        cin >> input;
+
+        // Error handling for cin
+        if (cin.fail())
+        {
+            cout << "\nPlease re-enter previous option with a valid option!\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        else
+        {
+            fail = false;
+        }
+    } while (fail);
+
+    return input;
+}
+
+// Factorial function. Using long long to alow for inputs with higher value. Normal int is capped to 12.
+// This function is predefined, and inside main it will use the user input of 'n' and reduce it by 1 each step until 'n' = 1.
+/// Function to calc factorials 
+long long int factorial(long long int n)
+    {
+        if (n > 0) // Will run the if, if 'n' is higher than 0.
+            {
+                return n * factorial(n - 1); //reduces the value of the input 'n' by 1
+            }
+        else
+            {
+                return 1; // If the input is 0, the output will be the factorial of 0, which is 1. 
+            }
+}
+
+// Main entry point of program
+int main()
+{   
+    int choice, n; 
+    bool quit = false;
+
+    do // The do-while loop of the menu will continue for as long as the user do not chose to quit.
+    {
+        cout << "\n------------------------- MENU -------------------------\n\n";
+        
+        cout << "1)      -       Simple math equations \n";
+        cout << "2)      -       Solving 3rd degree polynomials\n";
+        cout << "3)      -       Factorials\n";
+        cout << "4)      -       Find the hypotenuse of a right triangle\n";
+        cout << "0)      -       QUIT\n";
+        cout << "Please enter your choice: ";
+        cin >> choice;
+
+        switch (choice) // The switch (choice) now decides wich case that will trigger based on the user input of 'choice'.
+        {
+                    case 1: // Simple math equations
+                    {
+                        char again;
+                        do
+                        {
+                            string op;		        // op means operator, and will be our +, -, * and /
+                            double num1, num2;      // using the datatype double, to allow for decimal numbers.
+
+                            cout << "\n---------- Simple Math Equations -----------\n";
+                            cout << "Please enter your first digit: ";
+                            num1 = GetDouble(); //gjør dette på alle steder du skal hente tall, ikke char
+
+                            cout << "Enter your operator: +, -, * or /: ";
+                            op = GetString();
+
+                            cout << "Enter your second digit: ";
+                            num2 = GetDouble();
+
+                            switch (op[0]) //[]Because of array
+                            {
+
+                            case '+':
+                                cout << "\n" << num1 << " + " << num2 << " = " << num1 + num2;
+                                break;
+
+                            case '-':
+                                cout << num1 << " - " << num2 << " = " << num1 - num2;
+                                break;
+
+                            case '*':
+                                cout << num1 << " * " << num2 << " = " << num1 * num2;
+                                break;
+
+                            case '/':
+                                cout << num1 << " / " << num2 << " = " << num1 / num2;
+                                break;
+
+                            default:
+                                cout << "Error. Operator is not correct! Please choose between +, -, / and *";
+                                break;
+                            }
+                               
+                            cout << "\n\nDo you want to do a new calulation? (y/n)\n";
+                            cin >> again;
+
+                        } while (again == 'y');             // This do-while loop will let the user do an other calulation if they want. 
+                                                            // If they inpu 'n', then the break will push the user back to the main menu.
+                        cout << "\nOkey, bye!\n";
+                        break;
+                    }
+                    case 2: // 3rd degree poly
+                            cout << "\n-------------- POLYNOMIALS --------------";
+                            poly1(); // Using the function created outside of main()
+                        break;
+   
+                    case 3: // Factorials n!
+                    {
+                        long long int n, result;
+                        string again;
+                        do
+                        {
+                            cout << "\n-------------- FACTORIALS --------------";
+                            cout << "\nEnter a positive number: ";
+                            n = GetInteger();
+
+                            {
+                                if (n >= 0)             // isdigit(n)=true
+                                {
+                                    result = factorial(n);
+                                    cout << "\nThe factorial of " << n << " is " << result << ".\n";
+                                    cout << "\nWould you like to try again? (y/n)\n";
+                                    again = GetString();
+                                }
+                                else
+                                {
+                                    cout << "\nThe number you entered is invalid, please chose a number from 1 or higher!\n";
+                                    cout << "\nWould you like to try again? (y/n)\n";
+                                    again = GetString();
+                                }
+                            }
+                        } while (again[0] == 'y');
+                        
+                        cout << "\nOkey, bye!\n";
+                        break;
+                    }
+                    case 4: // Hypotenuse
+                    {
+                        double a;
+                        double b;
+                        char again;
+                        do
+                        {
+                            cout << "\n-------------- Hypotenuse calculations --------------\n";
+                            cout << "\nPlease enter the first value of side a: ";
+                            cin >> a;
+                            cout << "\nPlease enter the second value, for side b: ";
+                            cin >> b;
+
+                            double c = sqrt((a * a) + (b * b));
+
+                            cout << "\nThe hypotenuse is " << c << "!\n";
+                            cout << "\nWould you like to try again? (y/n): ";
+                            cin >> again;
+                        } while (again == 'y');
+                        cout << "\nOkey, bye!\n";
+                        break;
+
+                    }
+
+                    case 0:
+                        cout << "\nYou have chosed to quit the program!\n";
+                        cout << "Goodbye..... forever!\n\n";
+                        quit = true;
+                        break;
+
+                    default:
+                            cout << "Invalid option entered!" << endl;
+            
+        }
+
+    } while (!quit);
+}
